@@ -121,7 +121,7 @@ particularly if one endpoint operates in ignorance of the needs of its peer.
 RFC 7540 {{?RFC7540}} introduced a complex prioritization scheme that uses a
 combination of stream dependencies and weights to describe an unbalanced tree.
 This scheme suffered from poor deployment and interoperability, it was
-deprecated in HTTP/2 ({{HTTP2}}). However, in order to maintain wire
+deprecated in a revision of HTTP/2 ({{HTTP2}}). However, in order to maintain wire
 compatibility, HTTP/2 priority signals are still mandatory to handle. These come
 in three forms. First, a HEADERS frame {{Section 6.2 of HTTP2}} with the
 PRIORITY flag set is an explicit signal that includes an Exclusive flag, Stream
@@ -130,9 +130,9 @@ flag is an implicit signal to use the default priority. Third, the PRIORITY
 frame {{Section 6.3 of HTTP2}}, which is always explicit since it always
 contains an Exclusive flag, Stream Dependency field, and Weight field.
 
-Client build an RFC 7540 tree using signals but experience has shown the rich
+Clients build an RFC 7540 tree using signals but experience has shown the rich
 flexibility is rarely exercised. Instead they tend to choose a single model
-optimized for a web use case and experiment within the model constraints, or do
+optimized for a single use case and experiment within the model constraints, or do
 nothing at all. Furthermore, many clients build their prioritization tree in a
 unique way, which makes it difficult for servers to understand their intent and
 act or intervene accordingly.
