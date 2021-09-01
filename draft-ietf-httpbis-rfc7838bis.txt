@@ -86,7 +86,7 @@ Table of Contents
 
 1.  Introduction
 
-   HTTP [RFC7230] conflates the identification of resources with their
+   HTTP [HTTP] conflates the identification of resources with their
    location.  In other words, "http://" and "https://" URIs are used to
    both name and find things to interact with.
 
@@ -101,7 +101,7 @@ Table of Contents
       location that is more local to the client.
 
    *  An origin server might wish to offer access to its resources using
-      a new protocol, such as HTTP/2 [RFC7540], or one using improved
+      a new protocol, such as HTTP/2 [HTTP2], or one using improved
       security, such as Transport Layer Security (TLS) [RFC5246].
 
    *  An origin server might wish to segment its clients into groups of
@@ -132,16 +132,16 @@ Table of Contents
    document are to be interpreted as described in [RFC2119].
 
    This document uses the Augmented BNF defined in [RFC5234] and updated
-   by [RFC7405] along with the "#rule" extension defined in Section 7 of
-   [RFC7230].  The rules below are defined in [RFC5234], [RFC7230], and
-   [RFC7234]:
+   by [RFC7405] along with the "#rule" extension defined in
+   Section 5.6.1 of [HTTP].  The rules below are defined in [RFC5234],
+   [HTTP], and [Caching]:
 
-   OWS           = <OWS, see [RFC7230], Section 3.2.3>
-   delta-seconds = <delta-seconds; see [RFC7234], Section 1.2.1>
-   port          = <port, see [RFC7230], Section 2.7>
-   quoted-string = <quoted-string, see [RFC7230], Section 3.2.6>
-   token         = <token, see [RFC7230], Section 3.2.6>
-   uri-host      = <uri-host, see [RFC7230], Section 2.7>
+   OWS           = <OWS, see [HTTP], Section 5.6.3>
+   delta-seconds = <delta-seconds; see [Caching], Section 1.2.2>
+   port          = <port, see [HTTP], Section 4.1>
+   quoted-string = <quoted-string, see [HTTP], Section 5.6.4>
+   token         = <token, see [HTTP], Section 5.6.2>
+   uri-host      = <uri-host, see [HTTP], Section 4.1>
 
 2.  Alternative Services Concepts
 
@@ -154,7 +154,7 @@ Table of Contents
    an origin server at a separate location on the network, possibly
    using a different protocol configuration.  Alternative services are
    considered authoritative for an origin's resources, in the sense of
-   Section 9.1 of [RFC7230].
+   Section 4.3 of [HTTP].
 
    For example, an origin:
 
@@ -195,9 +195,9 @@ Table of Contents
    Importantly, this includes its security context; in particular, when
    TLS [RFC5246] is used to authenticate, the alternative service will
    need to present a certificate for the origin's host name, not that of
-   the alternative.  Likewise, the Host header field ([RFC7230],
-   Section 5.4) is still derived from the origin, not the alternative
-   service (just as it would if a CNAME were being used).
+   the alternative.  Likewise, the Host header field (Section 7.2 of
+   [HTTP]) is still derived from the origin, not the alternative service
+   (just as it would if a CNAME were being used).
 
    The changes MAY, however, be made visible in debugging tools,
    consoles, etc.
@@ -358,10 +358,10 @@ Table of Contents
    invalid reply containing both "clear" and alternative services).
 
    ALPN protocol names are octet sequences with no additional
-   constraints on format.  Octets not allowed in tokens ([RFC7230],
-   Section 3.2.6) MUST be percent-encoded as per Section 2.1 of
-   [RFC3986].  Consequently, the octet representing the percent
-   character "%" (hex 25) MUST be percent-encoded as well.
+   constraints on format.  Octets not allowed in tokens (Section 5.6.2
+   of [HTTP]) MUST be percent-encoded as per Section 2.1 of [RFC3986].
+   Consequently, the octet representing the percent character "%" (hex
+   25) MUST be percent-encoded as well.
 
    In order to have precisely one way to represent any ALPN protocol
    name, the following additional constraints apply:
@@ -382,8 +382,8 @@ Table of Contents
 
    Alt-Svc: h2=":8000"
 
-   This indicates the "h2" protocol ([RFC7540]) on the same host using
-   the indicated port 8000.
+   This indicates the "h2" protocol ([HTTP2]) on the same host using the
+   indicated port 8000.
 
    An example involving a change of host:
 
@@ -409,8 +409,8 @@ Table of Contents
 
    Alt-Svc MAY occur in any HTTP response message, regardless of the
    status code.  Note that recipients of Alt-Svc can ignore the header
-   field (and are required to in some situations; see Sections 2.1 and
-   6).
+   field (and are required to in some situations; see Section 2.1 and
+   Section 6).
 
    The Alt-Svc field value can have multiple values:
 
@@ -425,7 +425,7 @@ Table of Contents
    start using this new connection immediately or can continue using the
    existing connection while the new connection is created.
 
-   When using HTTP/2 ([RFC7540]), servers SHOULD instead send an ALTSVC
+   When using HTTP/2 ([HTTP2]), servers SHOULD instead send an ALTSVC
    frame (Section 4).  A single ALTSVC frame can be sent for a
    connection; a new frame is not needed for every request.  Note that,
    despite this recommendation, Alt-Svc header fields remain valid in
@@ -444,7 +444,7 @@ Table of Contents
    Section 7.3 for registration details).
 
    Note that all field elements that allow "quoted-string" syntax MUST
-   be processed as per Section 3.2.6 of [RFC7230].
+   be processed as per Section 5.6.4 of [HTTP].
 
 3.1.  Caching Alt-Svc Header Field Values
 
@@ -454,7 +454,7 @@ Table of Contents
 
    Syntax:
 
-   ma = delta-seconds; see [RFC7234], Section 1.2.1
+   ma = delta-seconds; see [Caching], Section 1.2.2
 
    The delta-seconds value indicates the number of seconds since the
    response was generated for which the alternative service is
@@ -462,7 +462,7 @@ Table of Contents
 
    Alt-Svc: h2=":443"; ma=3600
 
-   See Section 4.2.3 of [RFC7234] for details on determining the
+   See Section 4.2.3 of [Caching] for details on determining the
    response age.
 
    For example, a response:
@@ -509,12 +509,12 @@ Table of Contents
 
 4.  The ALTSVC HTTP/2 Frame
 
-   The ALTSVC HTTP/2 frame (Section 4 of [RFC7540]) advertises the
+   The ALTSVC HTTP/2 frame (Section 4 of [HTTP2]) advertises the
    availability of an alternative service to an HTTP/2 client.
 
    The ALTSVC frame is a non-critical extension to HTTP/2.  Endpoints
    that do not support this frame will ignore it (as per the
-   extensibility rules defined in Section 4.1 of [RFC7540]).
+   extensibility rules defined in Section 4.1 of [HTTP2]).
 
    An ALTSVC frame from a server to a client on a stream other than
    stream 0 indicates that the conveyed alternative service is
@@ -576,8 +576,7 @@ Table of Contents
 
    The Alt-Used header field is used in requests to identify the
    alternative service in use, just as the Host header field
-   (Section 5.4 of [RFC7230]) identifies the host and port of the
-   origin.
+   (Section 7.2 of [HTTP]) identifies the host and port of the origin.
 
    Alt-Used     = uri-host [ ":" port ]
 
@@ -598,11 +597,11 @@ Table of Contents
 
 6.  The 421 (Misdirected Request) HTTP Status Code
 
-   The 421 (Misdirected Request) status code is defined in Section 9.1.2
-   of [RFC7540] to indicate that the current server instance is not
-   authoritative for the requested resource.  This can be used to
-   indicate that an alternative service is not authoritative; see
-   Section 2).
+   The 421 (Misdirected Request) status code is defined in
+   Section 15.5.20 of [HTTP2] to indicate that the current server
+   instance is not authoritative for the requested resource.  This can
+   be used to indicate that an alternative service is not authoritative;
+   see Section 2).
 
    Clients receiving 421 (Misdirected Request) from an alternative
    service MUST remove the corresponding entry from its alternative
@@ -641,7 +640,7 @@ Table of Contents
 7.2.  The ALTSVC HTTP/2 Frame Type
 
    This document registers the ALTSVC frame type in the "HTTP/2 Frame
-   Type" registry (Section 11.2 of [RFC7540]).
+   Type" registry (Section 11.2 of [HTTP2]).
 
    Frame Type:  ALTSVC
 
@@ -802,8 +801,7 @@ Table of Contents
    explicitly carried by the protocol (such as ":scheme" in HTTP/2 or
    the "absolute form" of the request target in HTTP/1.1) as an
    indication of security context, instead of other connection
-   properties (Section 8.1.2.3 of [RFC7540] and Section 5.3.2 of
-   [RFC7230]).
+   properties (Section 8.3.1 of [HTTP2] and Section 3.2.2 of [HTTP11]).
 
    When the protocol does not explicitly carry the scheme (as is usually
    the case for HTTP/1.1 over TLS), servers can mitigate this risk by
@@ -814,6 +812,30 @@ Table of Contents
 10.  References
 
 10.1.  Normative References
+
+   [Caching]  Fielding, R. T., Nottingham, M., and J. Reschke, "HTTP
+              Caching", Work in Progress, Internet-Draft, draft-ietf-
+              httpbis-cache-18, 18 August 2021,
+              <https://datatracker.ietf.org/doc/html/draft-ietf-httpbis-
+              cache-18>.
+
+   [HTTP]     Fielding, R. T., Nottingham, M., and J. Reschke, "HTTP
+              Semantics", Work in Progress, Internet-Draft, draft-ietf-
+              httpbis-semantics-18, 18 August 2021,
+              <https://datatracker.ietf.org/doc/html/draft-ietf-httpbis-
+              semantics-18>.
+
+   [HTTP11]   Fielding, R. T., Nottingham, M., and J. Reschke,
+              "HTTP/1.1", Work in Progress, Internet-Draft, draft-ietf-
+              httpbis-messaging-18, 18 August 2021,
+              <https://datatracker.ietf.org/doc/html/draft-ietf-httpbis-
+              messaging-18>.
+
+   [HTTP2]    Belshe, M., Peon, R., and M. Thomson, "Hypertext Transfer
+              Protocol Version 2 (HTTP/2)", Work in Progress, Internet-
+              Draft, draft-ietf-httpbis-http2-17, 10 February 2015,
+              <https://datatracker.ietf.org/doc/html/draft-ietf-httpbis-
+              http2-17>.
 
    [RFC2119]  Bradner, S., "Key words for use in RFCs to Indicate
               Requirement Levels", BCP 14, RFC 2119,
@@ -853,16 +875,6 @@ Table of Contents
               DOI 10.17487/RFC6454, December 2011,
               <https://datatracker.ietf.org/doc/html/rfc6454>.
 
-   [RFC7230]  Fielding, R., Ed. and J. Reschke, Ed., "Hypertext Transfer
-              Protocol (HTTP/1.1): Message Syntax and Routing",
-              RFC 7230, DOI 10.17487/RFC7230, June 2014,
-              <https://datatracker.ietf.org/doc/html/rfc7230>.
-
-   [RFC7234]  Fielding, R., Ed., Nottingham, M., Ed., and J. Reschke,
-              Ed., "Hypertext Transfer Protocol (HTTP/1.1): Caching",
-              RFC 7234, DOI 10.17487/RFC7234, June 2014,
-              <https://datatracker.ietf.org/doc/html/rfc7234>.
-
    [RFC7301]  Friedl, S., Popov, A., Langley, A., and E. Stephan,
               "Transport Layer Security (TLS) Application-Layer Protocol
               Negotiation Extension", RFC 7301, DOI 10.17487/RFC7301,
@@ -872,11 +884,6 @@ Table of Contents
    [RFC7405]  Kyzivat, P., "Case-Sensitive String Support in ABNF",
               RFC 7405, DOI 10.17487/RFC7405, December 2014,
               <https://datatracker.ietf.org/doc/html/rfc7405>.
-
-   [RFC7540]  Belshe, M., Peon, R., and M. Thomson, Ed., "Hypertext
-              Transfer Protocol Version 2 (HTTP/2)", RFC 7540,
-              DOI 10.17487/RFC7540, May 2015,
-              <https://datatracker.ietf.org/doc/html/rfc7540>.
 
 10.2.  Informative References
 
