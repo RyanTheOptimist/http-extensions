@@ -885,9 +885,9 @@ Table of Contents
    context.
 
    See Section 4.9 for the interaction between header fields and HTTP
-   caching; in particular, request header fields that are used to
-   "select" a response have impact there, and need to be carefully
-   considered.
+   caching; in particular, request header fields that are used to choose
+   (as per Section 4.1 of [HTTP-CACHING]) a response have impact there,
+   and need to be carefully considered.
 
    See Section 4.10 for considerations regarding header fields that
    carry application state (e.g., Cookie).
