@@ -5,8 +5,8 @@
 HTTP Working Group                                        M. Bishop, Ed.
 Internet-Draft                                       Akamai Technologies
 Intended status: Standards Track                         M. Thomson, Ed.
-Expires: 5 March 2022                                            Mozilla
-                                                        1 September 2021
+Expires: 6 March 2022                                            Mozilla
+                                                        2 September 2021
 
 
                        HTTP Alternative Services
@@ -18,6 +18,20 @@ Abstract
    an origin's resources to be authoritatively available at a separate
    network location, possibly accessed with a different protocol
    configuration.
+
+Note to Readers
+
+   _RFC EDITOR: please remove this section before publication_
+
+   Discussion of this draft takes place on the HTTP working group
+   mailing list (ietf-http-wg@w3.org), which is archived at
+   https://lists.w3.org/Archives/Public/ietf-http-wg/
+   (https://lists.w3.org/Archives/Public/ietf-http-wg/).
+
+   Working Group information can be found at https://httpwg.org/
+   (https://httpwg.org/); source code and issues list for this draft can
+   be found at https://github.com/httpwg/http-extensions/labels/alt-svc
+   (https://github.com/httpwg/http-extensions/labels/alt-svc).
 
 Status of This Memo
 
@@ -34,7 +48,7 @@ Status of This Memo
    time.  It is inappropriate to use Internet-Drafts as reference
    material or to cite them other than as "work in progress."
 
-   This Internet-Draft will expire on 5 March 2022.
+   This Internet-Draft will expire on 6 March 2022.
 
 Copyright Notice
 
