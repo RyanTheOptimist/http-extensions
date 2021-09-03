@@ -4,8 +4,8 @@
 
 HTTP                                                            E. Stark
 Internet-Draft                                                    Google
-Intended status: Experimental                           1 September 2021
-Expires: 5 March 2022
+Intended status: Experimental                           3 September 2021
+Expires: 7 March 2022
 
 
                       Expect-CT Extension for HTTP
@@ -50,7 +50,7 @@ Status of This Memo
    time.  It is inappropriate to use Internet-Drafts as reference
    material or to cite them other than as "work in progress."
 
-   This Internet-Draft will expire on 5 March 2022.
+   This Internet-Draft will expire on 7 March 2022.
 
 Copyright Notice
 
@@ -116,10 +116,10 @@ Table of Contents
 
 1.  Introduction
 
-   This document defines a new HTTP header field that enables UAs to
-   identify web hosts that expect the presence of Signed Certificate
-   Timestamps (SCTs) [I-D.ietf-trans-rfc6962-bis] in subsequent
-   Transport Layer Security (TLS) [RFC8446] connections.
+   This document defines a new HTTP header field (Section 6.3 of [HTTP])
+   that enables UAs to identify web hosts that expect the presence of
+   Signed Certificate Timestamps (SCTs) [I-D.ietf-trans-rfc6962-bis] in
+   subsequent Transport Layer Security (TLS) [RFC8446] connections.
 
    Web hosts that serve the Expect-CT HTTP header field are noted by the
    UA as Known Expect-CT Hosts.  The UA evaluates each connection to a
@@ -896,6 +896,12 @@ Table of Contents
 9.  References
 
 9.1.  Normative References
+
+   [HTTP]     Fielding, R. T., Nottingham, M., and J. Reschke, "HTTP
+              Semantics", Work in Progress, Internet-Draft, draft-ietf-
+              httpbis-semantics-18, 18 August 2021,
+              <https://datatracker.ietf.org/doc/html/draft-ietf-httpbis-
+              semantics-18>.
 
    [I-D.ietf-trans-rfc6962-bis]
               Laurie, B., Langley, A., Kasper, E., Messeri, E., and R.
