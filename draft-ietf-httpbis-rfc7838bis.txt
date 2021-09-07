@@ -76,15 +76,16 @@ Table of Contents
      2.4.  Using Alternative Services
    3.  The Alt-Svc HTTP Header Field
      3.1.  Caching Alt-Svc Header Field Values
-   4.  The ALTSVC HTTP/2 Frame
+   4.  The ALTSVC Extension Frame
    5.  The Alt-Used HTTP Header Field
    6.  The 421 (Misdirected Request) HTTP Status Code
    7.  IANA Considerations
      7.1.  Header Field Registrations
      7.2.  The ALTSVC HTTP/2 Frame Type
-     7.3.  Alt-Svc Parameter Registry
-       7.3.1.  Procedure
-       7.3.2.  Registrations
+     7.3.  The ALTSVC HTTP/3 Frame Type
+     7.4.  Alt-Svc Parameter Registry
+       7.4.1.  Procedure
+       7.4.2.  Registrations
    8.  Internationalization Considerations
    9.  Security Considerations
      9.1.  Changing Ports
@@ -115,7 +116,7 @@ Table of Contents
       location that is more local to the client.
 
    *  An origin server might wish to offer access to its resources using
-      a new protocol, such as HTTP/2 [HTTP2], or one using improved
+      a new protocol, such as HTTP/3 [HTTP3], or one using improved
       security, such as Transport Layer Security (TLS) [RFC5246].
 
    *  An origin server might wish to segment its clients into groups of
@@ -239,7 +240,7 @@ Table of Contents
    There are many ways that a client could discover the alternative
    service(s) associated with an origin.  This document describes two
    such mechanisms: the "Alt-Svc" HTTP header field (Section 3) and the
-   "ALTSVC" HTTP/2 frame type (Section 4).
+   "ALTSVC" frame type for HTTP/2 and HTTP/3 (Section 4).
 
    The remainder of this section describes requirements that are common
    to alternative services, regardless of how they are discovered.
@@ -455,7 +456,7 @@ Table of Contents
    unknown parameter was not present.
 
    New parameters can be defined in extension specifications (see
-   Section 7.3 for registration details).
+   Section 7.4 for registration details).
 
    Note that all field elements that allow "quoted-string" syntax MUST
    be processed as per Section 5.6.4 of [HTTP].
@@ -521,26 +522,28 @@ Table of Contents
    See Section 2.2 for general requirements on caching alternative
    services.
 
-4.  The ALTSVC HTTP/2 Frame
+4.  The ALTSVC Extension Frame
 
-   The ALTSVC HTTP/2 frame (Section 4 of [HTTP2]) advertises the
-   availability of an alternative service to an HTTP/2 client.
+   The ALTSVC frame advertises the availability of an alternative
+   service to an HTTP/2 or HTTP/3 client.
 
-   The ALTSVC frame is a non-critical extension to HTTP/2.  Endpoints
-   that do not support this frame will ignore it (as per the
-   extensibility rules defined in Section 4.1 of [HTTP2]).
+   The ALTSVC frame is a separate non-critical extension in each
+   protocol.  Endpoints that do not support this frame will ignore it
+   (as per the extensibility rules defined in Section 4.1 of [HTTP2] and
+   Section 4.1 of [HTTP3]).
 
-   An ALTSVC frame from a server to a client on a stream other than
-   stream 0 indicates that the conveyed alternative service is
+   An ALTSVC frame from a server to a client on a request stream or a
+   push stream indicates that the conveyed alternative service is
    associated with the origin of that stream.
 
-   An ALTSVC frame from a server to a client on stream 0 indicates that
+   An ALTSVC frame from a server to a client on the control stream
+   (stream 0 in HTTP/2 or a stream of type 0 in HTTP/3) indicates that
    the conveyed alternative service is associated with the origin
    contained in the Origin field of the frame.  An association with an
    origin that the client does not consider authoritative for the
    current connection MUST be ignored.
 
-   The ALTSVC frame type is 0xa (decimal 10).
+   The ALTSVC frame type is 0xa (decimal 10) in both protocols.
 
    +-------------------------------+-------------------------------+
    |         Origin-Len (16)       | Origin? (*)                 ...
@@ -564,15 +567,16 @@ Table of Contents
       length) containing a value identical to the Alt-Svc field value
       defined in Section 3 (ABNF production "Alt-Svc").
 
-   The ALTSVC frame does not define any flags.
+   The ALTSVC frame does not define any flags in HTTP/2; there is no
+   generic flag field for HTTP/3 frames.
 
    The ALTSVC frame is intended for receipt by clients.  A device acting
    as a server MUST ignore it.
 
-   An ALTSVC frame on stream 0 with empty (length 0) "Origin"
+   An ALTSVC frame on the control stream with empty (length 0) "Origin"
    information is invalid and MUST be ignored.  An ALTSVC frame on a
-   stream other than stream 0 containing non-empty "Origin" information
-   is invalid and MUST be ignored.
+   request or push stream containing non-empty "Origin" information is
+   invalid and MUST be ignored.
 
    The ALTSVC frame is processed hop-by-hop.  An intermediary MUST NOT
    forward ALTSVC frames, though it can use the information contained in
@@ -662,14 +666,25 @@ Table of Contents
 
    Specification:  Section 4 of this document
 
-7.3.  Alt-Svc Parameter Registry
+7.3.  The ALTSVC HTTP/3 Frame Type
+
+   This document registers the ALTSVC frame type in the "HTTP/3 Frame
+   Type" registry (Section 11.2.1 of [HTTP3]).
+
+   Frame Type:  ALTSVC
+
+   Value:  0xa
+
+   Specification:  Section 4 of this document
+
+7.4.  Alt-Svc Parameter Registry
 
    The "Hypertext Transfer Protocol (HTTP) Alt-Svc Parameter Registry"
    defines the name space for parameters.  It has been created and will
    be maintained at <http://www.iana.org/assignments/http-alt-svc-
    parameters>.
 
-7.3.1.  Procedure
+7.4.1.  Procedure
 
    A registration MUST include the following fields:
 
@@ -680,7 +695,7 @@ Table of Contents
    Values to be added to this name space require Expert Review (see
    Section 4.1 of [RFC5226]).
 
-7.3.2.  Registrations
+7.4.2.  Registrations
 
    The "Hypertext Transfer Protocol (HTTP) Alt-Svc Parameter Registry"
    has been populated with the registrations below:
@@ -850,6 +865,12 @@ Table of Contents
               Draft, draft-ietf-httpbis-http2-17, 10 February 2015,
               <https://datatracker.ietf.org/doc/html/draft-ietf-httpbis-
               http2-17>.
+
+   [HTTP3]    Bishop, M., "Hypertext Transfer Protocol Version 3
+              (HTTP/3)", Work in Progress, Internet-Draft, draft-ietf-
+              quic-http-34, 2 February 2021,
+              <https://datatracker.ietf.org/doc/html/draft-ietf-quic-
+              http-34>.
 
    [RFC2119]  Bradner, S., "Key words for use in RFCs to Indicate
               Requirement Levels", BCP 14, RFC 2119,
