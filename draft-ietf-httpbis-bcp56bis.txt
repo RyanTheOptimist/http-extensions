@@ -3,10 +3,10 @@
 
 
 HTTP                                                       M. Nottingham
-Internet-Draft                                          7 September 2021
+Internet-Draft                                          8 September 2021
 Obsoletes: 3205 (if approved)                                           
 Intended status: Best Current Practice                                  
-Expires: 11 March 2022
+Expires: 12 March 2022
 
 
                       Building Protocols with HTTP
@@ -53,7 +53,7 @@ Status of This Memo
    time.  It is inappropriate to use Internet-Drafts as reference
    material or to cite them other than as "work in progress."
 
-   This Internet-Draft will expire on 11 March 2022.
+   This Internet-Draft will expire on 12 March 2022.
 
 Copyright Notice
 
@@ -1386,9 +1386,7 @@ Table of Contents
               <https://datatracker.ietf.org/doc/html/rfc3986>.
 
    [WEB-LINKING]
-              Nottingham, M., "Web Linking", RFC 8288,
-              DOI 10.17487/RFC8288, October 2017,
-              <https://datatracker.ietf.org/doc/html/rfc8288>.
+              "*** BROKEN REFERENCE ***".
 
    [WELL-KNOWN-URI]
               Nottingham, M., "Well-Known Uniform Resource Identifiers
