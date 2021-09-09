@@ -296,7 +296,8 @@ Table of Contents
    representation digest on an empty string (see Section 12.3).
 
    The checksum is computed using one of the digest-algorithms listed in
-   Section 7 and then encoded in the associated format.
+   the HTTP Digest Algorithm Values Registry (see Section 7) and then
+   encoded in the associated format.
 
 3.  The Digest Field
 
@@ -449,6 +450,9 @@ Table of Contents
    All digest-algorithm token values are case-insensitive but lower case
    is preferred; digest-algorithm token values MUST be compared in a
    case-insensitive fashion.
+
+   Every digest-algorithm defines its computation procedure and, unless
+   specified otherwise, the comparison is case-sensitive.
 
    The "HTTP Digest Algorithm Values Registry", maintained by IANA at
    https://www.iana.org/assignments/http-dig-alg/
@@ -1282,10 +1286,11 @@ Table of Contents
    http-dig-alg/) registry.
 
    IANA is asked to update the "Reference" for this registry to refer
-   this document.
+   this document and to inizialize the registry with the tokens defined
+   in Section 7.
 
    New registrations will be permitted through the RFC Required policy
-   [BCP26].
+   (see Section 4.7 of [RFC8126]).
 
 13.2.  Obsolete "contentMD5" token in Digest Algorithm
 
@@ -1304,19 +1309,19 @@ Table of Contents
 
 13.3.  Changes Compared to RFC3230
 
-   &#65532; The "contentMD5" digest-algorithm token defined in Section 5
-   of [RFC3230] is removed from the HTTP Digest Algorithm Values
-   Registry.
+   The "contentMD5" digest-algorithm token defined in Section 5 of
+   [RFC3230] has been added to the HTTP Digest Algorithm Values Registry
+   with the "obsoleted" status.
 
    All digest-algorithms defined in [RFC3230] are now "deprecated".
 
 13.4.  Changes Compared to RFC5843
 
-   The digest-algorithm values for "MD5", "SHA", "SHA-256", "SHA-512"
+   The digest-algorithm tokens for "MD5", "SHA", "SHA-256", "SHA-512"
    have been updated to lowercase.
 
    The status of "MD5" and "SHA" has been updated to "deprecated", and
-   their description states that they MUST NOT be used.
+   their description has been modified accordingly.
 
    The "id-sha-256" and "id-sha-512" algorithms have been added to the
    registry.
@@ -1368,12 +1373,6 @@ Table of Contents
 14.  References
 
 14.1.  Normative References
-
-   [BCP26]    Cotton, M., Leiba, B., and T. Narten, "Guidelines for
-              Writing an IANA Considerations Section in RFCs", BCP 26,
-              RFC 8126, June 2017.
-
-              <https://www.rfc-editor.org/info/bcp26>
 
    [CMU-836068]
               Carnagie Mellon University, Software Engineering
@@ -1438,6 +1437,11 @@ Table of Contents
    [RFC7405]  Kyzivat, P., "Case-Sensitive String Support in ABNF",
               RFC 7405, DOI 10.17487/RFC7405, December 2014,
               <https://datatracker.ietf.org/doc/html/rfc7405>.
+
+   [RFC8126]  Cotton, M., Leiba, B., and T. Narten, "Guidelines for
+              Writing an IANA Considerations Section in RFCs", BCP 26,
+              RFC 8126, DOI 10.17487/RFC8126, June 2017,
+              <https://datatracker.ietf.org/doc/html/rfc8126>.
 
    [RFC8174]  Leiba, B., "Ambiguity of Uppercase vs Lowercase in RFC
               2119 Key Words", BCP 14, RFC 8174, DOI 10.17487/RFC8174,
